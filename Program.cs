@@ -17,14 +17,11 @@ namespace PlayingCards
         private string _rank;
         private string _suit;
 
-        public Card(string rank, string suit, int point)
+        public Card(string rank, string suit)
         {
             _rank = rank;
-            _suit = suit;
-            Point = point;
+            _suit = suit;            
         }
-
-        public int Point { get; private set; }
 
         public void ShowInfo()
         {
@@ -36,6 +33,8 @@ namespace PlayingCards
     {
         private static Random _random;
 
+        public List<Card> Cards { get; private set; }
+
         static Deck()
         {
             _random = new Random();
@@ -46,7 +45,7 @@ namespace PlayingCards
             Cards = cards;
         }
 
-        public List<Card> Cards { get; private set; }
+        
 
         public void ShowCards()
         {
@@ -86,14 +85,12 @@ namespace PlayingCards
     class Maker
     {
         private string[] _ranks;
-        private string[] _suits;
-        private int[] _points;
+        private string[] _suits;        
 
         public Maker()
         {
             _ranks = new string[] { "2", "3", "4", "5", "6", "7", "8", "9", "10", "В", "Д", "К", "Т" };
             _suits = new string[] { "♠", "♣", "♦", "♥" };
-            _points = new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11 };
         }
 
         public Deck CreateNewDeck(int cardsCount)
@@ -105,7 +102,7 @@ namespace PlayingCards
             {
                 for (int j = 0; j < _suits.Length; j++)
                 {
-                    cards.Add(new Card(_ranks[i], _suits[j], _points[i]));
+                    cards.Add(new Card(_ranks[i], _suits[j]));
                 }
             }
 
