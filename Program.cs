@@ -96,9 +96,8 @@ namespace PlayingCards
         public Deck CreateNewDeck(int cardsCount)
         {
             List<Card> cards = new List<Card>();
-            int firstCardIndex = GetFirstCardIndex(cardsCount);
-
-            for (int i = firstCardIndex; i < _ranks.Length; i++)
+            
+            for (int i = 0; i < _ranks.Length; i++)
             {
                 for (int j = 0; j < _suits.Length; j++)
                 {
@@ -109,32 +108,6 @@ namespace PlayingCards
             Deck deck = new Deck(cards);
 
             return deck;
-        }
-
-        private int GetFirstCardIndex(int cardsCount)
-        {
-            int index = 0;
-            int startIndex52Cards = 0;
-            int startIndex36Cards = 4;
-            int startIndex32Cards = 5;
-
-            switch (cardsCount)
-            {
-                case 52:
-                    index = startIndex52Cards;
-                    break;
-                case 36:
-                    index = startIndex36Cards;
-                    break;
-                case 32:
-                    index = startIndex32Cards;
-                    break;
-                default:
-                    Console.WriteLine($"Ошибка количества карт в новой колоде. Создана колода на 52 карты");
-                    break;
-            }
-
-            return index;
         }
     }
 
