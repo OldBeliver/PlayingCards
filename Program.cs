@@ -105,9 +105,7 @@ namespace PlayingCards
                 }
             }
 
-            Deck deck = new Deck(cards);
-
-            return deck;
+            return new Deck(cards);
         }
     }
 
