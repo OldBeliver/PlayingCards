@@ -25,7 +25,7 @@ namespace PlayingCards
 
         public void ShowInfo()
         {
-            Console.Write($"{_rank}{_suit}");
+            Console.Write($"{_rank}{_suit} ");
         }
     }
 
@@ -50,7 +50,6 @@ namespace PlayingCards
             foreach (Card card in _cards)
             {
                 card.ShowInfo();
-                Console.Write($" ");
             }
         }
 
@@ -114,22 +113,21 @@ namespace PlayingCards
 
     class Player
     {
-        public List<Card> Cards { get; private set; }
+        private List<Card> _cards;
 
         public Player()
         {
-            Cards = new List<Card>();
+            _cards = new List<Card>();
         }
-
 
         public void TakeCard(Card card)
         {
-            Cards.Add(card);
+            _cards.Add(card);
         }
 
         public void ShowCards()
         {
-            foreach (Card card in Cards)
+            foreach (Card card in _cards)
             {
                 card.ShowInfo();
             }
