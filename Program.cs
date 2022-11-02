@@ -7,8 +7,8 @@ namespace PlayingCards
     {
         static void Main(string[] args)
         {
-            Dealer dealer = new Dealer();
-            dealer.Work();
+            Croupier croupier = new Croupier();
+            croupier.Work();
         }
     }
 
@@ -114,12 +114,13 @@ namespace PlayingCards
 
     class Player
     {
+        public List<Card> Cards { get; private set; }
+
         public Player()
         {
             Cards = new List<Card>();
         }
 
-        public List<Card> Cards { get; private set; }
 
         public void TakeCard(Card card)
         {
@@ -135,13 +136,13 @@ namespace PlayingCards
         }
     }
 
-    class Dealer
+    class Croupier
     {
         private Maker _maker;
         private Player _player;
         private Deck _deck;
 
-        public Dealer()
+        public Croupier()
         {
             _maker = new Maker();
             _player = new Player();
