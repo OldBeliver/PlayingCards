@@ -138,8 +138,8 @@ namespace PlayingCards
     class Dealer
     {
         private Maker _maker;
-        private Deck _deck;
         private Player _player;
+        private Deck _deck;
 
         public Dealer()
         {
@@ -147,14 +147,13 @@ namespace PlayingCards
             _player = new Player();
 
             _deck = _maker.CreateNewDeck();
+            _deck.Shuffle();
         }
 
         public void Work()
-        {
-            const string OpenNewDeckCommand = "1";
-            const string ShufleCommand = "2";
-            const string TakeCardCommand = "3";
-            const string ExitCommand = "4";
+        {   
+            const string TakeCardCommand = "1";
+            const string ExitCommand = "3";
 
             bool isExit = false;
 
@@ -162,28 +161,20 @@ namespace PlayingCards
             {
                 Console.Clear();
                 Console.WriteLine($"Колода карт");
-                Console.WriteLine($"{OpenNewDeckCommand}. Открыть новую колоду");
-                Console.WriteLine($"{ShufleCommand}. Перемешать колоду");
                 Console.WriteLine($"{TakeCardCommand}. Взять карту");
                 Console.WriteLine($"{ExitCommand}. Выход");
 
                 Console.WriteLine($"\nУ вас рентгеновское зрение и Вы видите колоду карт насквозь:");
                 _deck.ShowCards();
 
-                Console.WriteLine($"\nКарты в Вашей руке:");
+                Console.WriteLine($"\n\nКарты в Вашей руке:");
                 _player.ShowCards();
 
                 Console.WriteLine($"\nВведите номер команды:");
                 string userUnput = Console.ReadLine();
 
                 switch (userUnput)
-                {
-                    case OpenNewDeckCommand:
-                        OpenNewDeck();
-                        break;
-                    case ShufleCommand:
-                        _deck.Shuffle();
-                        break;
+                {   
                     case TakeCardCommand:
                         HandOverCard();
                         break;
@@ -197,16 +188,12 @@ namespace PlayingCards
             }
         }
 
-        private void OpenNewDeck()
-        {
-            _deck = _maker.CreateNewDeck();
-        }
-
         private void HandOverCard()
         {
             if (_deck.GetLength() == 0)
             {
                 Console.WriteLine($"В колоде нет карт");
+                Console.ReadKey();
                 return;
             }
 
