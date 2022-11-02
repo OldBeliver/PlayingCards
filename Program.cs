@@ -33,7 +33,7 @@ namespace PlayingCards
     {
         private static Random _random;
 
-        public List<Card> Cards { get; private set; }
+        private List<Card> _cards;
 
         static Deck()
         {
@@ -42,14 +42,12 @@ namespace PlayingCards
 
         public Deck(List<Card> cards)
         {
-            Cards = cards;
+            _cards = new List<Card>(cards);
         }
-
-        
 
         public void ShowCards()
         {
-            foreach (Card card in Cards)
+            foreach (Card card in _cards)
             {
                 card.ShowInfo();
                 Console.Write($" ");
@@ -60,13 +58,13 @@ namespace PlayingCards
         {
             Card temporaryCard;
 
-            for (int i = 0; i < Cards.Count; i++)
+            for (int i = 0; i < _cards.Count; i++)
             {
-                int anyIndex = _random.Next(Cards.Count);
+                int anyIndex = _random.Next(_cards.Count);
 
-                temporaryCard = Cards[i];
-                Cards[i] = Cards[anyIndex];
-                Cards[anyIndex] = temporaryCard;
+                temporaryCard = _cards[i];
+                _cards[i] = _cards[anyIndex];
+                _cards[anyIndex] = temporaryCard;
             }
         }
 
@@ -74,11 +72,16 @@ namespace PlayingCards
         {
             int upperCard = 0;
 
-            Card card = Cards[upperCard];
+            Card card = _cards[upperCard];
 
-            Cards.Remove(card);
+            _cards.Remove(card);
 
             return card;
+        }
+
+        public int GetLength()
+        {
+            return _cards.Count;
         }
     }
 
@@ -93,7 +96,7 @@ namespace PlayingCards
             _suits = new string[] { "♠", "♣", "♦", "♥" };
         }
 
-        public Deck CreateNewDeck(int cardsCount)
+        public Deck CreateNewDeck()
         {
             List<Card> cards = new List<Card>();
             
@@ -136,7 +139,6 @@ namespace PlayingCards
     {
         private Maker _maker;
         private Deck _deck;
-        private int _cardsCountInNewDeck;
         private Player _player;
 
         public Dealer()
@@ -144,8 +146,7 @@ namespace PlayingCards
             _maker = new Maker();
             _player = new Player();
 
-            _cardsCountInNewDeck = 52;
-            _deck = _maker.CreateNewDeck(_cardsCountInNewDeck);
+            _deck = _maker.CreateNewDeck();
         }
 
         public void Work()
@@ -198,52 +199,17 @@ namespace PlayingCards
 
         private void OpenNewDeck()
         {
-            int cardsCountInNewDeck = GetCardsCount();
-
-            _deck = _maker.CreateNewDeck(cardsCountInNewDeck);
-        }
-
-        private int  GetCardsCount()
-        {
-            const string CardsCount52 = "1";
-            const string CardsCount36 = "2";
-            const string CardsCount32 = "3";
-
-            int cardsCountInNewDeck;
-
-            Console.Clear();
-            Console.WriteLine($"Выберите количество карт в колоде:");
-            Console.WriteLine($"{CardsCount52}. 52 карты");
-            Console.WriteLine($"{CardsCount36}. 36 карт");
-            Console.WriteLine($"{CardsCount32}. 32 карты");
-
-            string userInput = Console.ReadLine();
-
-            switch (userInput)
-            {
-                default:
-                case CardsCount52:
-                    cardsCountInNewDeck = 52;
-                    break;
-                case CardsCount36:
-                    cardsCountInNewDeck = 36;
-                    break;
-                case CardsCount32:
-                    cardsCountInNewDeck = 32;
-                    break;
-            }
-
-            return cardsCountInNewDeck;
+            _deck = _maker.CreateNewDeck();
         }
 
         private void HandOverCard()
         {
-            if (_deck.Cards.Count == 0)
+            if (_deck.GetLength() == 0)
             {
                 Console.WriteLine($"В колоде нет карт");
                 return;
             }
-            
+
             Card card = _deck.GiveCard();
 
             _player.TakeCard(card);
